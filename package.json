@@ -1,7 +1,7 @@
 {
-  "name": "expresso-auth",
+  "name": "senioritto",
   "version": "1.0.0",
-  "description": "",
+  "description": "A long-term path project on the way to the SOLID Senior developer.",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./src/api/server.ts"
