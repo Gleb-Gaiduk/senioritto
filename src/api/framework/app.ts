@@ -1,7 +1,7 @@
 import { errorMiddleware } from './middlewares/error.middleware';
 import express, { Application } from 'express';
 import { IAppConfig } from '../../interfaces/app.config.interface';
-import { IController } from '../../interfaces/controller.base.interface';
+import { IController } from './base-classes/controller.base.interface';
 
 export class App {
   private _app: Application;

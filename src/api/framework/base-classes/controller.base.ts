@@ -1,4 +1,5 @@
 import express, { Request, Response, Router } from 'express';
+import { NotFoundError } from '../../../exceptions/not-found.exception';
 
 export abstract class ControllerBase {
   public readonly router: Router;
@@ -39,9 +40,12 @@ export abstract class ControllerBase {
     res.status(400).json({ message: responseMessage });
   }
 
-  public notFound(res: Response, message?: string): void {
-    const responseMessage = message ? message : '404 Not found';
-    res.status(404).json({ message: responseMessage });
+  public notFound(res: Response, entityName: string, message?: string): void {
+    const errorInstance = message
+      ? NotFoundError.createWithMessage(message, entityName)
+      : NotFoundError.createDefault(entityName);
+
+    res.status(404).json(errorInstance);
   }
 
   public created(res: Response): void {
