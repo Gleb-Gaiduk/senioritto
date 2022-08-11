@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { ControllerBase } from '../../../base-classes/controller.base';
+import { ControllerBase } from '../../../../base-classes/controller.base';
 
 export class CreateUserContoller extends ControllerBase {
   constructor() {

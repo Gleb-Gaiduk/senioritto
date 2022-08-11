@@ -1,3 +1,3 @@
-import { CreateUserContoller } from './create-user/createUser.controller';
+import { CreateUserContoller } from './application/create-user/createUser.controller';
 
 export const userAccessControllers = [new CreateUserContoller()];

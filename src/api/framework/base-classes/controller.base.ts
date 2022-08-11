@@ -1,5 +1,5 @@
 import express, { Request, Response, Router } from 'express';
-import { NotFoundError } from '../../../exceptions/not-found.exception';
+import { NotFoundError } from '../../../libs/exceptions/not-found.exception';
 
 export abstract class ControllerBase {
   public readonly router: Router;

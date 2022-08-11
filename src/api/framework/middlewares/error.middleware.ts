@@ -1,4 +1,4 @@
-import { HttpRequestException } from 'exceptions/http.exception';
+import { HttpRequestException } from 'libs/exceptions/http.exception';
 import { Request, Response, NextFunction } from 'express';
 
 export const errorMiddleware = (
