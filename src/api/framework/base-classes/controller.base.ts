@@ -1,5 +1,10 @@
 import express, { Request, Response, Router } from 'express';
-import { NotFoundError } from '../../../libs/exceptions/not-found.exception';
+import { BadRequestException } from '../../../libs/exceptions/bad-request.exception';
+import {
+  ExceptionUtils,
+  IErrorWithMessage
+} from '../../../libs/exceptions/exception.utils';
+import { NotFoundException } from '../../../libs/exceptions/not-found.exception';
 
 export abstract class ControllerBase {
   public readonly router: Router;
@@ -20,8 +25,10 @@ export abstract class ControllerBase {
     try {
       await this.handleUseCase(req, res);
     } catch (err) {
-      console.log(`[Base Controller]: Unexpected error`, err);
-      this.serverFail(res, 'An unexpected error occurred');
+      const error = ExceptionUtils.toErrorWithMessage(err);
+      console.log(`[Base Controller]: Unexpected error`, error);
+
+      this.serverFail(res, error);
     }
   }
 
@@ -36,16 +43,13 @@ export abstract class ControllerBase {
   }
 
   public badRequest(res: Response, message?: string): void {
-    const responseMessage = message ? message : '400 Bad Request';
-    res.status(400).json({ message: responseMessage });
+    const badRequestException = new BadRequestException(message);
+    res.status(badRequestException.code).json(badRequestException.toJSON());
   }
 
-  public notFound(res: Response, entityName: string, message?: string): void {
-    const errorInstance = message
-      ? NotFoundError.createWithMessage(message, entityName)
-      : NotFoundError.createDefault(entityName);
-
-    res.status(404).json(errorInstance);
+  public notFound(res: Response, message?: string): void {
+    const notFoundException = new NotFoundException(message);
+    res.status(notFoundException.code).json(notFoundException.toJSON());
   }
 
   public created(res: Response): void {
@@ -67,7 +71,7 @@ export abstract class ControllerBase {
     res.status(402).json({ message: responseMessage });
   }
 
-  public serverFail(res: Response, error: Error | string): void {
+  public serverFail(res: Response, error: IErrorWithMessage): void {
     console.log(error);
     res.status(500).json({
       status: error.toString()

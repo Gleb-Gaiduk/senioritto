@@ -1,11 +1,12 @@
 import {
   Either,
+  fail,
   success
-} from '../../../../../../libs/building-blocks/application/failure-success.monad';
+} from '../../../../libs/building-blocks/application/failure-success.monad';
 import {
   IDefaultValueObjectProps,
   ValueObject
-} from '../../../../../../libs/building-blocks/domain/value-object.base';
+} from '../../../../libs/building-blocks/domain/value-objects/value-object.base';
 
 export class Email extends ValueObject<string> {
   private constructor(value: string) {
@@ -13,7 +14,7 @@ export class Email extends ValueObject<string> {
     this.props.value = Email.format(value);
   }
 
-  static create(email: string): Either<{ message: string }, Email> {
+  static create(email: string): Either<never, Email> {
     return success(new Email(email));
   }
 
@@ -21,7 +22,9 @@ export class Email extends ValueObject<string> {
     return this.props.value;
   }
 
-  protected validate({ value }: IDefaultValueObjectProps<string>): void {
+  protected validate({
+    value
+  }: IDefaultValueObjectProps<string>): void | never {
     if (typeof value !== 'string') {
       throw new Error('Email address should be of a string type');
     }

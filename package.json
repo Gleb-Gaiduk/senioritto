@@ -1,7 +1,7 @@
 {
-  "name": "senioritto",
+  "name": "Triride",
   "version": "1.0.0",
-  "description": "A long-term path project on the way to the SOLID Senior developer.",
+  "description": "Find a companion for your triathlon event ride: BACKEND",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./src/api/server.ts"
@@ -10,11 +10,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/uuid": "^8.3.4",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "express-rate-limit": "^6.5.1",
     "express-slow-down": "^1.4.0",
-    "helmet": "^5.1.1"
+    "helmet": "^5.1.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

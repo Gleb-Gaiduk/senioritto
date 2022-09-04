@@ -1,6 +1,7 @@
 export interface ISerializedException {
   message: string;
-  code: string | number;
+  code: number;
+  status: string;
   name: string;
   stack?: string;
   metadata?: unknown;

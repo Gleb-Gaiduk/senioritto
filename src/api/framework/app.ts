@@ -2,6 +2,7 @@ import { errorMiddleware } from './middlewares/error.middleware';
 import express, { Application } from 'express';
 import { IAppConfig } from '../../interfaces/app.config.interface';
 import { IController } from './base-classes/controller.base.interface';
+import { TestLogWhenUserAccountCreated } from '../../modules/notifications/application/event-handlers/test-log-when-user-account-created.domain-event-handler';
 
 export class App {
   private _app: Application;
@@ -19,6 +20,10 @@ export class App {
   public listen(): void {
     this._app.listen(this._appConfig.port, () => {
       console.log(`Listening on the port ${this._appConfig.port}`);
+
+      // Temporary for testing
+      const eventHandler = new TestLogWhenUserAccountCreated();
+      eventHandler.listen();
     });
   }
 

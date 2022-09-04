@@ -31,7 +31,7 @@ export abstract class ValueObject<TProps> {
     return Object.freeze(structuredClone(this.props));
   }
 
-  public isEqual(valueObject: ValueObject<TProps>): boolean {
+  public isEqualTo(valueObject: ValueObject<TProps>): boolean {
     if (!valueObject) {
       return false;
     }

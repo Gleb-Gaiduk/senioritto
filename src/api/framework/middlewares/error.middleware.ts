@@ -1,13 +1,13 @@
-import { HttpRequestException } from 'libs/exceptions/http.exception';
 import { Request, Response, NextFunction } from 'express';
+import { ExceptionBase } from '../../../libs/exceptions/exception.base';
 
 export const errorMiddleware = (
-  error: HttpRequestException,
+  error: ExceptionBase,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const status = error.status || 500;
+  const status = error.code || 500;
   const message = error.message || '500 Internal Server Error';
 
   res.status(status).send({

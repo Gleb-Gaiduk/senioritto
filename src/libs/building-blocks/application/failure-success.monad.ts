@@ -1,41 +1,41 @@
-export type Either<L, A> = Fail<L, A> | Success<L, A>;
+export type Either<L, A> = Fail<L> | Success<A>;
 
-export class Fail<L, A> {
+export class Fail<L> {
   readonly value: L;
 
   constructor(value: L) {
     this.value = value;
   }
 
-  public isFail(): this is Fail<L, A> {
+  public isFail(): this is Fail<L> {
     return true;
   }
 
-  public isSuccess(): this is Success<L, A> {
+  public isSuccess(): this is Success<null> {
     return false;
   }
 }
 
-export class Success<L, A> {
+export class Success<A> {
   readonly value: A;
 
   constructor(value: A) {
     this.value = value;
   }
 
-  isSuccess(): this is Fail<L, A> {
-    return false;
+  isSuccess(): this is Success<A> {
+    return true;
   }
 
-  isFail(): this is Success<L, A> {
-    return true;
+  isFail(): this is Fail<null> {
+    return false;
   }
 }
 
-export const fail = <L, A>(l: L): Either<L, A> => {
-  return new Fail<L, A>(l);
+export const fail = <L>(l: L): Fail<L> => {
+  return new Fail<L>(l);
 };
 
-export const success = <L, A>(a: A): Either<L, A> => {
-  return new Success<L, A>(a);
+export const success = <A>(a: A): Success<A> => {
+  return new Success<A>(a);
 };
