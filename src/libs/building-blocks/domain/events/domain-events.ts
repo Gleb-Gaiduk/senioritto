@@ -16,7 +16,7 @@ export class DomainEvents {
     event: TDomainEventClass,
     eventHandler: TEventHandler
   ): void {
-    const eventName: TEventName = event.constructor.name;
+    const eventName: TEventName = event.name;
 
     if (!this.subscribers.has(eventName)) {
       this.subscribers.set(eventName, []);

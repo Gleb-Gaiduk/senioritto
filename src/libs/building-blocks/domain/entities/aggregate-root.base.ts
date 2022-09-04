@@ -6,7 +6,7 @@ export abstract class AggregateRoot<TEntityProps> extends Entity<TEntityProps> {
   private _domainEvents: DomainEvent[] = [];
 
   get domainEvents(): DomainEvent[] {
-    return this.domainEvents;
+    return this._domainEvents;
   }
 
   protected addDomainEvent(event: DomainEvent): void {
