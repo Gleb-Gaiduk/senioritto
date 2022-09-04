@@ -3,6 +3,7 @@ import express, { Application } from 'express';
 import { IAppConfig } from '../../interfaces/app.config.interface';
 import { IController } from './base-classes/controller.base.interface';
 import { TestLogWhenUserAccountCreated } from '../../modules/notifications/application/event-handlers/test-log-when-user-account-created.domain-event-handler';
+import { DomainEventHandler } from '../../libs/building-blocks/domain/events/domain-event-handler.base';
 
 export class App {
   private _app: Application;
@@ -14,16 +15,13 @@ export class App {
 
     this._initMiddlewares();
     this._initControllers(this._appConfig.controllers);
+    this._initDomainEventListeners(this._appConfig.domainEventHandlers);
     this._initErrorHandling();
   }
 
   public listen(): void {
     this._app.listen(this._appConfig.port, () => {
       console.log(`Listening on the port ${this._appConfig.port}`);
-
-      // Temporary for testing
-      const eventHandler = new TestLogWhenUserAccountCreated();
-      eventHandler.listen();
     });
   }
 
@@ -45,5 +43,11 @@ export class App {
     controllers.forEach((controller) => {
       this._app.use('/', controller.router);
     });
+  }
+
+  private _initDomainEventListeners(
+    domainEventHandlers: DomainEventHandler[]
+  ): void {
+    domainEventHandlers.forEach((eventHandler) => eventHandler.listen());
   }
 }
