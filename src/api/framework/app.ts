@@ -1,7 +1,7 @@
 import { errorMiddleware } from './middlewares/error.middleware';
 import express, { Application } from 'express';
 import { IAppConfig } from '../../interfaces/app.config.interface';
-import { IController } from './base-classes/controller.base.interface';
+import { IControllerBase } from './base-classes/controller.base.interface';
 import { TestLogWhenUserAccountCreated } from '../../modules/notifications/application/event-handlers/test-log-when-user-account-created.domain-event-handler';
 import { DomainEventHandler } from '../../libs/building-blocks/domain/events/domain-event-handler.base';
 
@@ -39,7 +39,7 @@ export class App {
     this._app.use(errorMiddleware);
   }
 
-  private _initControllers(controllers: IController[]): void {
+  private _initControllers(controllers: IControllerBase[]): void {
     controllers.forEach((controller) => {
       this._app.use('/', controller.router);
     });

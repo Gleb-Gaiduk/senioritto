@@ -1,21 +1,13 @@
 import {
-  Either,
-  fail,
-  success
-} from '../../../../libs/building-blocks/application/failure-success.monad';
-import {
   IDefaultValueObjectProps,
   ValueObject
 } from '../../../../libs/building-blocks/domain/value-objects/value-object.base';
+import { ArgumentInvalidException } from '../../../../libs/exceptions/generic/argument-invalid.exception';
 
 export class Email extends ValueObject<string> {
-  private constructor(value: string) {
+  constructor(value: string) {
     super({ value });
     this.props.value = Email.format(value);
-  }
-
-  static create(email: string): Either<never, Email> {
-    return success(new Email(email));
   }
 
   public get value(): string {
@@ -26,7 +18,9 @@ export class Email extends ValueObject<string> {
     value
   }: IDefaultValueObjectProps<string>): void | never {
     if (typeof value !== 'string') {
-      throw new Error('Email address should be of a string type');
+      throw new ArgumentInvalidException(
+        'Email address should be of a string type'
+      );
     }
 
     const isValidEmail = value
@@ -36,7 +30,7 @@ export class Email extends ValueObject<string> {
       );
 
     if (!isValidEmail) {
-      throw new Error('Email address is not valid');
+      throw new ArgumentInvalidException('Email address is not valid');
     }
   }
 

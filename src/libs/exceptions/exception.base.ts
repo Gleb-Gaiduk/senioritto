@@ -1,10 +1,9 @@
 import { ISerializedException } from './exception.interface';
 
 export abstract class ExceptionBase extends Error {
+  abstract readonly status: string;
   readonly message: string;
   readonly metadata?: unknown;
-  abstract readonly code: number;
-  abstract readonly status: string;
 
   constructor(message: string, metadata?: unknown) {
     super(message);
@@ -19,7 +18,6 @@ export abstract class ExceptionBase extends Error {
     return {
       message: this.message,
       stack: this.stack,
-      code: this.code,
       status: this.status,
       name: this.name,
       metadata: this.metadata

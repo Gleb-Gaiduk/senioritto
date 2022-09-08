@@ -12,7 +12,7 @@ import { UserAccountCreatedDomainEvent } from '../events/user-account-created.do
 
 export enum EGender {
   MALE = 'm',
-  FRMALE = 'f'
+  FEMALE = 'f'
 }
 
 export interface IUserAccountProps {

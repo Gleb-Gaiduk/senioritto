@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { ExceptionBase } from '../../../libs/exceptions/exception.base';
+import { HTTPException } from '../../../libs/exceptions/http/http-exception.base';
 
 export const errorMiddleware = (
-  error: ExceptionBase,
+  error: HTTPException,
   req: Request,
   res: Response,
   next: NextFunction

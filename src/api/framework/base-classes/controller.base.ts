@@ -1,12 +1,11 @@
 import express, { Request, Response, Router } from 'express';
-import { BadRequestException } from '../../../libs/exceptions/bad-request.exception';
-import {
-  ExceptionUtils,
-  IErrorWithMessage
-} from '../../../libs/exceptions/exception.utils';
-import { NotFoundException } from '../../../libs/exceptions/not-found.exception';
+import { BadRequestException } from '../../../libs/exceptions/http/bad-request.exception';
+import { ExceptionUtils } from '../../../libs/exceptions/exception.utils';
+import { NotFoundException } from '../../../libs/exceptions/http/not-found.exception';
+import { InternalServerErrorException } from '../../../libs/exceptions/http/server-error.exception';
+import { IControllerBase } from './controller.base.interface';
 
-export abstract class ControllerBase {
+export abstract class ControllerBase implements IControllerBase {
   public readonly router: Router;
   public readonly path: string;
 
@@ -28,7 +27,7 @@ export abstract class ControllerBase {
       const error = ExceptionUtils.toErrorWithMessage(err);
       console.log(`[Base Controller]: Unexpected error`, error);
 
-      this.serverFail(res, error);
+      this.serverFail(res, error.message);
     }
   }
 
@@ -71,10 +70,8 @@ export abstract class ControllerBase {
     res.status(402).json({ message: responseMessage });
   }
 
-  public serverFail(res: Response, error: IErrorWithMessage): void {
-    console.log(error);
-    res.status(500).json({
-      status: error.toString()
-    });
+  public serverFail(res: Response, message?: string): void {
+    const serverErrorException = new InternalServerErrorException(message);
+    res.status(serverErrorException.code).json(serverErrorException.toJSON());
   }
 }

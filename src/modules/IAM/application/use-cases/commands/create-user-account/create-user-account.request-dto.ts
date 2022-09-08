@@ -1,4 +1,4 @@
-import { EGender } from '../../../domain/entities/user-account.entity';
+import { EGender } from '../../../../domain/entities/user-account.entity';
 
 export interface ICreateUserRequestDTO {
   email: string;

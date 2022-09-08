@@ -1,3 +1,4 @@
+import { ArgumentInvalidException } from '../../../exceptions/generic/argument-invalid.exception';
 import { IDefaultValueObjectProps, ValueObject } from './value-object.base';
 
 export class DateVO extends ValueObject<Date> {
@@ -21,7 +22,7 @@ export class DateVO extends ValueObject<Date> {
     const isNaN = Number.isNaN(props.value.getTime());
 
     if (!isDateInstance || isNaN) {
-      throw new Error(
+      throw new ArgumentInvalidException(
         'Date value provided to the DateVO value object is incorrect'
       );
     }
