@@ -9,6 +9,9 @@ import { DateVO } from '../../../../libs/building-blocks/domain/value-objects/da
 import { ID } from '../../../../libs/building-blocks/domain/value-objects/id.value-object';
 import { UUID } from '../../../../libs/building-blocks/domain/value-objects/uuid.value-object';
 import { UserAccountCreatedDomainEvent } from '../events/user-account-created.domain-event';
+import { BirthDate } from '../value-objects/birth-date.value-object';
+import { UserName } from '../value-objects/user-name.value-object';
+import { UserAuthentication } from './user-authentication.entity';
 
 export enum EGender {
   MALE = 'm',
@@ -16,18 +19,14 @@ export enum EGender {
 }
 
 export interface IUserAccountProps {
-  firstName: string;
-  lastName: string;
+  userName: UserName;
   gender: EGender;
-  dateOfBirth: DateVO;
-  // authentication: UserAuthentication;
+  dateOfBirth: BirthDate;
+  authentication: UserAuthentication;
   // roles: UserRole[];
 }
 
-export type ICreateUserAccountProps = Pick<
-  IUserAccountProps,
-  'firstName' | 'lastName' | 'gender' | 'dateOfBirth'
->;
+export type ICreateUserAccountProps = IUserAccountProps;
 
 export class UserAccount extends AggregateRoot<IUserAccountProps> {
   protected readonly _id: UUID;
@@ -44,11 +43,13 @@ export class UserAccount extends AggregateRoot<IUserAccountProps> {
 
     if (!userAccount) return fail(new Error('Error in user account creating'));
 
+    const { firstName, lastName } = props.userName.rawProps();
+
     userAccount.addDomainEvent(
       new UserAccountCreatedDomainEvent({
         aggregateId: id.value,
-        firstName: props.firstName,
-        lastName: props.lastName
+        firstName,
+        lastName
       })
     );
     return success(userAccount);
